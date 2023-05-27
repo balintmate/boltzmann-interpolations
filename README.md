@@ -7,7 +7,7 @@ This repository contains the implementation of the paper
 Given an existing installation of ```virtualenv```, the environment necessary to executing the experiments in this repository can be set up by ```env/_setup/create_env.sh```.
 ## Experiments in the paper
 
-An experiment can launched by
+Experiments can be launched by commands like
 ```
 source env/bin/activate
 export PYTHONPATH=${PWD}:${PYTHONPATH}
