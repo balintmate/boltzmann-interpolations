@@ -4,7 +4,7 @@ This repository contains the implementation of the paper
 > [Learning Interpolations between Boltzmann Densities](https://openreview.net/forum?id=TH6YrEcbth) by Bálint Máté and François Fleuret.
 
 ## Environment
-Given an existing installation of ```virtualenv```, the environment necessary to executing the experiments in this repository can be set up by ```env/_setup/create_env.sh```.
+Given an existing installation of ```virtualenv```, the environment necessary to executing the experiments in this repository can be set up by ```install.sh```.
 ## Experiments in the paper
 
 Experiments can be launched by commands like
@@ -26,12 +26,14 @@ All the plots and metrics are also logged to the ```wandb```directory by default
 If you find our paper or this repository useful, consider citing us at
 
 ```
-@misc{máté2023learning,
-      title={Learning Interpolations between Boltzmann Densities}, 
-      author={Bálint Máté and François Fleuret},
+@article{
+      m{\'a}t{\'e}2023learning,
+      title={Learning Interpolations between Boltzmann Densities},
+      author={B{\'a}lint M{\'a}t{\'e} and Fran{\c{c}}ois Fleuret},
+      journal={Transactions on Machine Learning Research},
+      issn={2835-8856},
       year={2023},
-      eprint={2301.07388},
-      archivePrefix={arXiv},
-      primaryClass={stat.ML}
+      url={https://openreview.net/forum?id=TH6YrEcbth},
+      note={}
 }
 ```
