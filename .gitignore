@@ -1,7 +1,8 @@
-.DS_Store
+*.DS_Store
 experiments/outputs/*
 experiments/wandb/*
 *__pycache__*
 experiments/wandb.key
 experiments/out
 experiments/error
+.vscode/*

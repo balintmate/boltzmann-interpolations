@@ -1,52 +1,88 @@
-RNGkey: 0
-float64: True
-kill_when_broadcast: True
-kill_when_nans: True
-save_model: False
+jax_config:
+  jax_enable_x64: True
+  jax_numpy_rank_promotion: 'raise'
+  jax_debug_nans: True
+  
+wandb_project_name: Learning Interpolations
 
-
-target: Gaussians2D
-#target: DoubleWell
-
-baseP: 2
-base_sigma: 1
-
-loss: ReverseKL # [continuity, ReverseKL]
-contloss: integrate # [sample,integrate]
-continuity_L_function: L1+L2 #[L1,L2,L1+L2]
-f_interpolation: linear_trainable #[linear, linear_trainable, trig_trainable, diffusion]
-
+batch_size: 256
 train_steps: 10000
 learning_rate: 1e-3
-batch_size: 256
+
 integration_steps: 50
 
 eval_steps: 25
 eval_size: 4096
 
+RNGkey: 0
+save_model: False
+
+
+
+
+
+#targetE: ${GaussianEnergy}
+targetE: ${DoubleWellEnergy}
+
+loss: ${ContLoss}
+#loss: ${KLLoss}
+
+
+model_architecture: ${MLP}
+
+
+KLLoss:
+  batch_size: ${batch_size}
+  _target_: losses.reverseKL.reverseKL
+
+
+ContLoss:
+  batch_size: ${batch_size}
+  _target_: losses.continuity.continuityLoss
+  integration_steps: ${integration_steps}
+  continuity_L_function: L1+L2 #[L1,L2,L1+L2]
+  
+
+
+
+base:
+  P: 2
+  sigma: 1
+
 
 ### models
 MLP:
-  MLP_size: 128
-  num_hidden_layers: 3
-  num_models: 4
+  _target_: flow.models_MLP.models_MLP
+  params:
+    RNGkey: ${RNGkey}
+    loss: ${loss._target_}
+    base: ${base}
+    features: 128
+    num_hidden_layers: 3
+    num_models: 4
+    f_interpolation: linear_trainable #[linear, linear_trainable, trig_trainable, diffusion]
 
 
-### targets
-Gaussians2D:
-  N: 2
-  modes: # [[x,y],sigma, weight] 
-  #- [[4,4],2,0.5]
-  - [[-8,-8],1,1]
-  - [[-8,8],1,1]
-  - [[8,-8],1,1]
-  - [[8,8],1,1]
-  multicolor_plot: True
-  num_plot_steps: 6
-  plot_size: 12
+  ### targets
 
-DoubleWell:
-  N: 8
-  m: 3
-  lam: 1
-  plot_xlim: 4
+GaussianEnergy:
+  _target_: targets.gaussian.gaussianEnergy
+  params: 
+    N: 2
+    modes: # [[x,y],sigma, weight] 
+      #- [[4,4],2,0.5]
+      - [[-8,-8],1,1]
+      - [[-8,8],1,1]
+      - [[8,-8],1,1]
+      - [[8,8],1,1]
+    multicolor_plot: True
+    num_plot_steps: 6
+    plot_size: 12
+
+DoubleWellEnergy:
+  _target_: targets.doublewell.doubleWellEnergy
+  params: 
+    N: 8
+    m: 3
+    lam: 1
+    plot_xlim: 4

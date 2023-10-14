@@ -7,14 +7,8 @@ This repository contains the implementation of the paper
 Given an existing installation of ```virtualenv```, the environment necessary to executing the experiments in this repository can be set up by ```install.sh```.
 ## Experiments in the paper
 
-Experiments can be launched by commands like
-```
-source env/bin/activate
-export PYTHONPATH=${PWD}:${PYTHONPATH}
-cd experiments
-python3 exp.py target=Gaussians2D loss=continuity f_interpolation=linear_trainable
-```
-See ```experiments/config.yaml``` for the tuneable parameters of the experiments.
+Single experiments can be launched by the  ```run_single.sh``` file which uses the configs from the ```experiments/config.yaml``` file.
+
 
 Alternatively, the scripts ```Gaussian_experiments.py``` and ```DoubleWell_experiments.py``` contain the configurations used in the paper and can be used to launch our experiments in detached tmux terminals (assuming that ```tmux``` is already installed). To start them,  just uncomment the lines corresponding to the configurations you are interested in. By default everything is commented out to avoid starting a bunch of runs at once.
 
