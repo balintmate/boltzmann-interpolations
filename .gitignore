@@ -6,3 +6,5 @@ experiments/wandb.key
 experiments/out
 experiments/error
 .vscode/*
+wandb/*
+outputs/*
