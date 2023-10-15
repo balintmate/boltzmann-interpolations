@@ -53,9 +53,12 @@ class V_MLP:
     def __call__(self, T, x, params):
         T_x = jnp.concatenate((x, jnp.expand_dims(T, -1)), -1)
         VFs = jax.vmap(lambda P: self.mlp.apply(P, T_x))(params)
-        time_centers = jnp.linspace(0, 1, self.num_models)
-        time_weights = jnp.exp(-((time_centers - T) ** 2) * (self.num_models**2))
-        return jnp.einsum("tv,t->v", VFs, time_weights)
+        if self.num_models > 1:
+            time_centers = jnp.linspace(0, 1, self.num_models)
+            time_weights = jnp.exp(-((time_centers - T) ** 2) * (self.num_models**2))
+            return jnp.einsum("tv,t->v", VFs, time_weights)
+        else:
+            return VFs[0]
 
     def VF_and_div(self, T, x, params):
         x, _ = x
